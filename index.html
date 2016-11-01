@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reaction Timer</title>
+    <link rel="stylesheet" type="text/css" href="library/sweetalert/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="library/app/main.css">
+    <link rel="stylesheet" type="text/css" href="library/mui/mui.css">
+</head>
+
+<body id="body">
+    <div id="content-wrapper">
+        <div id="appbar-placeholder" class="mui--appbar-height"></div>
+        <div class="mui-container-fluid">
+            <div class="mui-row">
+                <div class="mui-col-sm-10 mui-col-sm-offset-1">
+                    <div class="space-top"></div>
+                    <h1>我们想知道你的一些信息</h1>
+                    <p>这是一个匿名的测试，所以不会公开你的个人信息</p>
+
+                    <div class="mui-panel">
+                        <legend>请在下面输入，然后开始实验</legend>
+                        <div class="mui-textfield">
+                            <input name='age' type="text" class="mui--is-empty mui--is-dirty">
+                            <label>我的年龄</label>
+                        </div>
+
+                        <div class="mui-radio">
+                            <label>
+                                <input type="radio"
+                                       name="sex"
+                                       value="male"
+                                       checked>
+                                男生
+                            </label>
+                        </div>
+                        <div class="mui-radio">
+                            <label>
+                                <input type="radio"
+                                       name="sex"
+                                       value="female">
+                                女生
+                            </label>
+                        </div>
+                        <div class="mui-textfield">
+                            <input name='discipline' type="text" class="mui--is-empty mui--is-dirty">
+                            <label>我的专业</label>
+                        </div>
+                        <div class="mui-select">
+                            <select name="vision">
+                                <option>正常</option>
+                                <option>近视</option>
+                                <option>远视</option>
+                            </select>
+                            <label>视力情况</label>
+                        </div>
+                        <div style="text-align: right"><button onclick="beforeTest()" name='submit' class="mui-btn mui-btn--null mui-btn--primary">开始实验</button>
+                            <div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="trigger"></div>
+    <div id="testArea">
+        <p style="font-weight: 400;color: cyan;font-size: 20px;line-height: 28px;">请按空格键开始</p>
+    </div>
+
+    <script src="library/jquery.min.js"></script>
+    <script src="library/mui/mui.js"></script>
+    <script src="library/sweetalert/sweetalert.js"></script>
+    <script src="library/app/main.js"></script>
+    <script>
+        function beforeTest() {
+            document.getElementById('content-wrapper').style.display = 'none';
+            swal({
+                    title: "Are you Ready?",
+                    text: "<h3>你将进行5次测试，请集中注意力</h3>",
+                    type: "warning",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "OK",
+                    closeOnConfirm: true,
+                    html:true
+                },
+                function() {
+                    getParitcipatorInfo();
+                    gotParticipatorInfo = true;
+                    document.getElementById('body').style.display = 'flex';
+                    document.getElementById('testArea').style.display = 'flex';
+                }
+            );
+        }
+
+        function getParitcipatorInfo() {
+            dataScope[0].age = $("input[name='age']").val();
+            dataScope[0].sex = $("input[name='sex']:checked").val();
+            dataScope[0].discipline = $("input[name='discipline']").val();
+            dataScope[0].vision = $("select[name='vision']").val();
+        }
+    </script>
+</body>
+
+</html>
