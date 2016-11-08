@@ -1,3 +1,4 @@
+var targetSever='http://127.0.0.1/';
 var gotParticipatorInfo = false;
 var testArea = document.getElementById('testArea');
 var trigger = document.getElementById('trigger');
@@ -21,11 +22,12 @@ var reactionTimerID;
 var reactionTime;
 var IP;
 var dataScope = [];
+var aheadError = [];
 var isNoticed;
 var noticeNumber = 0;
 var resolution = screen.width.toString() + 'x' + screen.height.toString();
 
-var lock=true;//用来防止多次提交数据
+var lock = true; //用来防止多次提交数据
 
 //随机获取trigger settings
 $.get("getTriggerSettings.php", function(result) {
@@ -69,7 +71,7 @@ function init() {
 
 			setTimeout(function() {
 				trigger.style.display = 'none';
-				triggerEndAt = triggerStartAt.getTime() + triggerRemains;
+				triggerEndAt =triggerStartAt?(triggerStartAt.getTime() + triggerRemains):0;
 			}, triggerRemains);
 
 		}, triggerInterval);
@@ -79,8 +81,23 @@ function init() {
 		if (!startTime) {
 			clearTimeout(triggerTimmerID);
 			sweetAlert({
-				title: "Too Early,Please Relax",
+				title: "按早了，放松",
 				type: "error"
+			});
+			testAreaHeight = testArea.offsetHeight;
+			testAreaWidth = testArea.offsetWidth;
+			aheadError.push({
+				"testNumber": TestTimes,
+				"subjectEndTime": endTime.getTime(),
+				"testAreaInterval": testAreaInterval,
+				"testAreaWidth": testAreaWidth,
+				"testAreaHeight": testAreaHeight,
+				"triggerStartAt": triggerStartAt ? triggerStartAt.getTime() : 0,
+				"triggerEndAt": triggerEndAt ? triggerEndAt : 0,
+				"triggerColor": triggerColor,
+				"triggerPosition": triggerPosition,
+				"triggerInterval": triggerInterval
+
 			});
 			stopTest();
 			return;
@@ -94,17 +111,10 @@ function init() {
 			text: "<h1>" + tmp + "</h1>",
 			html: true
 		});
+		scopeData();
 		stopTest();
 		console.log(TestTimes);
 		TestTimes++;
-	}
-	if (TestTimes == 6) {
-		sweetAlert({
-			title: "#" + TestTimes + "   本次反应时间",
-			text: "<h1>" + tmp + "</h1>",
-			html: true
-		});
-		displayReport();
 	}
 }
 
@@ -243,23 +253,6 @@ function stopTest() {
 	testArea.style.background = '#1EAAF1';
 	testArea.innerHTML = "<p style='font-weight: 400;color: cyan;font-size: 20px;line-height: 28px;'>请按空格键开始</p>";
 	//Scope experiments data
-	testAreaHeight = testArea.offsetHeight;
-	testAreaWidth = testArea.offsetWidth;
-
-	dataScope.push({
-		"testNumber": TestTimes,
-		"testAreaStartTime": startTime.getTime(),
-		"testAreaInterval": testAreaInterval,
-		"testAreaWidth": testAreaWidth,
-		"testAreaHeight": testAreaHeight,
-		"subjectEndTime": endTime.getTime(),
-		"reactionTime": reactionTime,
-		"triggerStartAt": triggerStartAt.getTime(),
-		"triggerEndAt": triggerEndAt,
-		"triggerColor": triggerColor,
-		"triggerPosition": triggerPosition,
-		"triggerInterval": triggerInterval
-	});
 
 	//reinitiate variables
 	startTime = null;
@@ -269,115 +262,116 @@ function stopTest() {
 
 }
 
+function scopeData() {
+	testAreaHeight = testArea.offsetHeight;
+	testAreaWidth = testArea.offsetWidth;
+
+	dataScope.push({
+		"testNumber": TestTimes,
+		"testAreaStartTime": startTime ? startTime.getTime() : 0,
+		"testAreaInterval": testAreaInterval,
+		"testAreaWidth": testAreaWidth,
+		"testAreaHeight": testAreaHeight,
+		"subjectEndTime": endTime.getTime(),
+		"reactionTime": reactionTime,
+		"triggerStartAt": triggerStartAt ? triggerStartAt.getTime() : 0,
+		"triggerEndAt": triggerEndAt ? triggerEndAt : 0,
+		"triggerColor": triggerColor,
+		"triggerPosition": triggerPosition,
+		"triggerInterval": triggerInterval
+	});
+
+}
+
 function displayReport() {
 	console.log(dataScope);
 }
 
-function sendData(URL, JSON) {
-	var temp_form = document.createElement("form");
-	temp_form.action = URL;
-	temp_form.target = "_self";
-	temp_form.method = "post";
-	temp_form.style.display = "none";
-	var opt = document.createElement("textarea");
-	opt.value = JSON;
-	temp_form.appendChild(opt);
-	document.body.appendChild(temp_form);
-	temp_form.submit();
-}
+
+var noticeNumber
+var options = {
+	'keyboard': false, // teardown when <esc> key is pressed (default: true)
+	'static': true, // maintain overlay when clicked (default: false)
+	'onclose': function() {} // execute function when overlay is closed
+};
+var positionWindow = document.getElementById('detail');
+var first = document.getElementById('first');
 
 function askQuestion() {
+	first.style.display = 'block';
+	mui.overlay('on', options, first);
+}
 
-	swal({
-			title: "实验结束，但还有一些问题特别想问你!",
-			text: "你有注意到屏幕上的圆点吗？",
-			type: "success",
-			showCancelButton: true,
-			closeOnConfirm: false,
-			animation: "slide-from-top",
-			confirmButtonText: "注意到了",
-			cancelButtonText: "压根没有",
-			closeOnConfirm: false,
-			closeOnCancel: false
-		},
-		function(isConfirm) {
-			if (isConfirm) {
-				swal({
-					title: "你记得圆点的位置和颜色吗？",
-					text: "比如：右上／红 或者 不知道，也支持输入英文哦",
-					html: true,
-					type: "input",
-					closeOnConfirm: false,
-					animation: "slide-from-top",
-					inputPlaceholder: "位置和颜色"
-				}, function(inputValue) {
-					if (inputValue === "") {
-						swal.showInputError("好像什么都没有输入哎。。");
-						return false
-					} else {
-						dataScope[0].report = inputValue;
-						swal({
-							title: "最后一步!",
-							text: "哪几次注意到了亮点呢？例如：135",
-							type: "input",
-							closeOnConfirm: false,
-							animation: "slide-from-top",
-							inputPlaceholder: "1 2 3 4 5",
-							showLoaderOnConfirm: true
-						}, function(inputValue) {
-							if (inputValue === "") {
-								swal.showInputError("请输入实验序号");
-								return false
-							} else {
-								noticeNumber = inputValue;
-								isNoticed = 1;
-								dataScope.push({
-									'isNoticed': isNoticed,
-									'noticeNumber': noticeNumber
-								});
 
-								$.post("data.php", {
-									'data': JSON.stringify(dataScope)
-								}, function(success) {
-									swal({
-										title: "感谢你的参与",
-										text: "3秒后返回首页",
-										timer: 3000,
-										showConfirmButton: false
-									}, function() {
-										console.log(dataScope);
-										window.location.replace('http://127.0.0.1');
-									});
-								});
-							}
-						});
-					}
-				});
-			} else {
-				if (lock) {
-					lock=false;
-					isNoticed = 0;
-					dataScope.push({
-						'isNoticed': isNoticed
-					});
+function yes() {
+	mui.overlay('off')
+	positionWindow.style.display = 'block';
+	mui.overlay('on', options, positionWindow);
+}
 
-					$.post("data.php", {
-						'data': JSON.stringify(dataScope)
-					}, function(success) {
-						swal({
-							title: "感谢你的参与",
-							text: "3秒后返回首页",
-							timer: 3000,
-							showConfirmButton: false
-						}, function() {
-							console.log(dataScope);
-							window.location.replace('http://127.0.0.1');
-						});
-					});
-				}
-			}
-		}
-	);
+function no() {
+	mui.overlay('off')
+	if (lock) {
+		lock = false;
+		isNoticed = 0;
+		dataScope.push({
+			'isNoticed': isNoticed
+		});
+
+		$.post("data.php", {
+			'data': JSON.stringify(dataScope),
+			'aheadError':JSON.stringify(aheadError)
+		}, function(success) {
+			swal({
+				title: "感谢你的参与",
+				text: "3秒后返回首页",
+				type:"success",
+				timer: 3000,
+				showConfirmButton: false
+			}, function() {
+				console.log(dataScope);
+				window.location.replace(targetSever);
+			});
+		});
+	}
+}
+
+function mgmuioff() {
+	var selectedPosition = $("input[name='position']:checked").val()
+	var selectedColor = $("input[name='color']:checked").val()
+	if (!(selectedColor && selectedPosition)) {
+		document.getElementById('error').style.display = 'block';
+	} else {
+		dataScope[0].report = (selectedPosition + selectedColor); //scopeData
+		var originalnoticeNumber = [];
+		$('input[type="checkbox"]:checked').each(function() {
+			originalnoticeNumber.push($(this).val());
+		});
+		noticeNumber = originalnoticeNumber.join('')
+		isNoticed = 1;
+		dataScope.push({
+			'isNoticed': isNoticed,
+			'noticeNumber': noticeNumber
+		});
+
+		$.post("data.php", {
+			'data': JSON.stringify(dataScope),
+			'aheadError': JSON.stringify(aheadError)
+		}, function(success) {
+			swal({
+				title: "感谢你的参与",
+				text: "5秒后返回首页",
+				timer: 5000,
+				type:"success",
+				showConfirmButton: false
+			}, function() {
+				console.log(dataScope);
+				window.location.replace(targetSever);
+
+			});
+		});
+		mui.overlay('off')
+	}
 }
 
 //get Participator IP

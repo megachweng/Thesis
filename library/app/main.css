@@ -1,40 +1,105 @@
-#testArea {
-    width: 20%;
-    height: 20%;
-    background:#1EAAF1;
-    display: none;
-    align-items: center;
-    justify-content: center;
+    #testArea {
+        width: 20%;
+        height: 20%;
+        background: #1EAAF1;
+        display: none;
+        align-items: center;
+        justify-content: center;
+    }
 
-}
+    #trigger {
+        width: 30px;
+        height: 30px;
+        display: none;
+        border-radius: 25px;
+    }
 
-#trigger {
-    width: 30px;
-    height: 30px;
-    display: none;
-    border-radius: 25px;
-}
+    body, html {
+        height: 100%;
+        margin: 0;
+    }
 
+    body {
+        display: block;
+        align-items: center;
+        justify-content: center;
+        background: #FAFAFA;
+    }
 
-body,html{
-    height: 100%;
-    margin: 0;
-}
+    #detail, #first, #color {
+        background-color: white;
+        font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        width: 478px;
+        text-align: center;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        margin-left: -256px;
+        margin-top: -200px;
+        display: block;
+        z-index: 99999;
+        padding: 17px;
+        border-radius: 5px;
+        overflow: hidden;
+    }
 
-body{
-    display: block;
-    align-items: center;
-    justify-content: center;
-    background:#FAFAFA;
-}
+    #detail span {
+        margin-right: 1rem;
+    }
 
-/*white*/
-/*#FAFAFA*/
-/*red*/
-/*#EF443D*/
+    h2 {
+        color: #575757;
+        font-size: 30px;
+        text-align: center;
+        font-weight: 600;
+        text-transform: none;
+        position: relative;
+        margin: 25px 0;
+        padding: 0;
+        line-height: 40px;
+        display: block;
+    }
 
-/*green*/
-/*#8CC152*/
+    p {
+        margin: 0 0px 10px;
+        padding-top: 10px;
+        color: red;
+    }
 
-/*grey*/
-/*#9E9E9E*/
+    #sex {
+        display: block;
+        left: -20px;
+        margin-bottom: 10px;
+        position: relative;
+        width: 100%;
+        color: rgba(0, 0, 0, 0.54);
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 15px;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        height: 1px;
+        background-color: rgba(0, 0, 0, 0.26);
+    }
+
+    #is {
+        color: #797979;
+        font-size: 16px;
+        text-align: center;
+        font-weight: 300;
+        position: relative;
+        text-align: inherit;
+        float: none;
+        margin: 0;
+        padding: 0;
+        line-height: normal;
+    }
+
+    #arrow {}

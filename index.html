@@ -27,22 +27,19 @@
                         </div>
 
                         <div class="mui-radio">
+                            <label id="sex">性别</label>
                             <label>
-                                <input type="radio"
-                                       name="sex"
-                                       value="male"
-                                       checked>
+                                <input type="radio" name="sex" value="male" >
                                 男生
                             </label>
                         </div>
                         <div class="mui-radio">
                             <label>
-                                <input type="radio"
-                                       name="sex"
-                                       value="female">
-                                女生
+                                <input type="radio" name="sex" value="female">女生
                             </label>
+
                         </div>
+                        <hr>
                         <div class="mui-textfield">
                             <input name='discipline' type="text" class="mui--is-empty mui--is-dirty">
                             <label>我的专业</label>
@@ -65,9 +62,56 @@
         </div>
     </div>
 
-    <div id="trigger"></div>
+    <div id="trigger">
+        <div id="arrow">
+
+        </div>
+    </div>
     <div id="testArea">
         <p style="font-weight: 400;color: cyan;font-size: 20px;line-height: 28px;">请按空格键开始</p>
+    </div>
+
+    <div id="first" style="display:none">
+        <h2>实验结束，但还有一些问题特别想问你</h2>
+        <p id="is">你有注意到屏幕上的圆点吗?</p>
+        <button class="mui-btn mui-btn--raised mui-btn--accent" onclick="no()">压根没有</button>
+        <button class="mui-btn mui-btn--primary" onclick="yes()">注意到了</button>
+
+    </div>
+    <div id="detail" style="display:none">
+
+        <div style="padding-bottom: inherit;text-align: left;padding-left: 4rem;">
+            <h3>回想一下，哪几次实验你注意到了圆点?</h3>
+            <div id="checked">
+                <span class="mui-checkbox"><label><input type="checkbox" value="1">#1</label></span>
+                <span class="mui-checkbox"><label><input type="checkbox" value="2">#2</label></span>
+                <span class="mui-checkbox"><label><input type="checkbox" value="3">#3</label></span>
+                <span class="mui-checkbox"><label><input type="checkbox" value="4">#4</label></span>
+                <span class="mui-checkbox"><label><input type="checkbox" value="5">#5</label></span>
+            </div>
+
+
+            <hr style="margin-left: -40px;">
+            <h3>圆点出现的位置?</h3>
+            <span class="mui-radio"><label><input type="radio" name="position" value="upright">右上</label></span>
+            <span class="mui-radio"><label><input type="radio" name="position" value="upleft">左上</label></span>
+            <span class="mui-radio"><label><input type="radio" name="position" value="bottomright">右下</label></span>
+            <span class="mui-radio"><label><input type="radio" name="position" value="bottomleft">左下</label></span>
+            <span class="mui-radio"><label><input type="radio" name="position" value="unknown">忘记了</label></span>
+
+
+            <hr style="margin-left: -40px;">
+            <h3>圆点的颜色?</h3>
+            <span class="mui-radio"><label><input type="radio" name="color" value="red">红色</label></span>
+            <span class="mui-radio"><label><input type="radio" name="color" value="green">绿色</label></span>
+            <span class="mui-radio"><label><input type="radio" name="color" value="yellow">黄色</label></span>
+            <span class="mui-radio"><label><input type="radio" name="color" value="unknown">忘记了</label></span>
+        </div>
+        <div id="error" style="background-color: #f1f1f1;margin-right: -17px;margin-left: -17px;padding: 1px;display:none">
+            <p>好像还没有选完 :)</p>
+        </div>
+
+        <button class="mui-btn mui-btn--primary" onclick="mgmuioff()">OK</button>
     </div>
 
     <script src="library/jquery.min.js"></script>
@@ -75,11 +119,12 @@
     <script src="library/sweetalert/sweetalert.js"></script>
     <script src="library/app/main.js"></script>
     <script>
+
         function beforeTest() {
             document.getElementById('content-wrapper').style.display = 'none';
             swal({
                     title: "Are you Ready?",
-                    text: "<h3>你将进行5次测试，请集中注意力</h3>",
+                    text: "<h3>中间区域变色时马上按下<b>空格键</b><br>你一共将进行5次测试，之后会有几个简单的问题<br>集中注意力</h3>",
                     type: "warning",
                     confirmButtonColor: "#DD6B55",
                     confirmButtonText: "OK",

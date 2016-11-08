@@ -917,7 +917,7 @@ h4, h5, h6 {
 .mui-radio,
 .mui-checkbox {
   position: relative;
-  display: block;
+  display: inline;
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -2630,4 +2630,10 @@ th {
   font-size: 14px;
   line-height: 18px;
   text-transform: uppercase;
+}
+
+.mui--text-title, h3 {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 35px;
 }
