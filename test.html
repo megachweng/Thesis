@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="library/sweetalert/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="library/mui/mui.css">
+</head>
+
+<body>
+    <div id="content-wrapper">
+        <div id="appbar-placeholder" class="mui--appbar-height"></div>
+        <div class="mui-container-fluid">
+            <div class="mui-row">
+                <div class="mui-col-sm-10 mui-col-sm-offset-1">
+                    <div class="space-top"></div>
+                    <h1>请在实验前花一些时间阅读指导语</h1>
+
+                    <div class="mui-panel" style="line-height: 27px">
+                        <legend>这是一个匿名的测试，我们不会公开你的个人信息</legend>
+                        <ul>
+                            <li>接下来你将会进行5次实验,每次实验略有不同</li>
+                            <li>实验过程中请距离屏幕1.5米，并尽量保持姿势不变</li>
+                            <li>当屏幕中间的蓝色矩形区域变为红色时立马按下键盘上的空格键</li>
+                            <li>点击确定按钮，即可开始下一个次实验</li>
+                            <li>重复上一次实验的步骤直至5次实验全部完成</li>
+
+                            <hr>
+                            <li>五次实验结束后，我们将会向你询问几个简单的问题</li>
+                            <li>请放松，问题的选择没有对错之分</li>
+                            <li>请根据自己的感觉来选择答案</li>
+                            <li>程序会自动复位。为了方便后来做实验的同学，请不要关闭程序。</li>
+                        </ul>
+                        <div style="text-align:center">
+                            <button id="nextstep" class="mui-btn mui-btn--primary" onclick="alert('开始实验')" disabled>10</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="library/jquery.min.js"></script>
+<script src="library/mui/mui.js"></script>
+<script src="library/sweetalert/sweetalert.js"></script>
+<script>
+    var beforeTest = 7;
+    var nextStep = document.getElementById('nextstep');
+    var itID = setInterval(function() {
+        beforeTest--;
+        if (beforeTest == 0) {
+            nextStep.innerHTML = "下一步";
+            nextStep.removeAttribute("disabled")
+            clearInterval(itID);
+        } else {
+            console.log(window);
+            nextStep.innerHTML = beforeTest;
+
+        }
+
+    }, 1000);
+</script>
+
+</html>

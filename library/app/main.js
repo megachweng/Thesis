@@ -1,4 +1,4 @@
-var targetSever='http://127.0.0.1/';
+var targetSever='http://192.168.1.17/';
 var gotParticipatorInfo = false;
 var testArea = document.getElementById('testArea');
 var trigger = document.getElementById('trigger');
@@ -107,8 +107,8 @@ function init() {
 		// swal(reactionTime.toString());
 		var tmp = reactionTime.toString();
 		sweetAlert({
-			title: "#" + TestTimes + "   本次反应时间",
-			text: "<h1>" + tmp + "</h1>",
+			title: "第" + TestTimes +"次实验: ",
+			text: "<h1>反应时间:" + tmp + "ms</h1>",
 			html: true
 		});
 		scopeData();
