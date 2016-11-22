@@ -21,13 +21,79 @@ var triggerColor;
 var reactionTimerID;
 var reactionTime;
 var IP;
-var dataScope = [];
+var dataScope = [{}];
 var aheadError = [];
 var isNoticed;
 var noticeNumber = 0;
 var resolution = screen.width.toString() + 'x' + screen.height.toString();
 
 var lock = true; //用来防止多次提交数据
+var beforeTestTime = 1;
+var nextStep = document.getElementById('nextstep');
+
+//beforeTes
+var itID = setInterval(function() {
+	beforeTestTime--;
+	if (beforeTestTime == 0) {
+		nextStep.innerHTML = "下一步";
+		nextStep.removeAttribute("disabled")
+		clearInterval(itID);
+	} else {
+		nextStep.innerHTML = beforeTestTime;
+
+	}
+
+}, 1000);
+
+function guideReaded() {
+	document.getElementById('guidePage').style.display = 'none';
+	document.getElementById('scopeInfo').removeAttribute('style');
+	requestFullScreen(document.documentElement);
+}
+
+function beforeTest() {
+	document.getElementById('scopeInfo').style.display = 'none';
+	swal({
+			title: "Are you Ready?",
+			type: "warning",
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Go!",
+			closeOnConfirm: true,
+			html: true
+		},
+		function() {
+			getParitcipatorInfo();
+			gotParticipatorInfo = true;
+			document.getElementById('body').style.display = 'flex';
+			document.getElementById('testArea').style.display = 'flex';
+		}
+	);
+}
+
+function getParitcipatorInfo() {
+	dataScope[0].age = $("input[name='age']").val();
+	dataScope[0].sex = $("input[name='sex']:checked").val();
+	dataScope[0].discipline = $("input[name='discipline']").val();
+	dataScope[0].vision = $("select[name='vision']").val();
+}
+
+function requestFullScreen(element) {
+	// 判断各种浏览器，找到正确的方法
+	var requestMethod = element.requestFullScreen || //W3C
+		element.webkitRequestFullScreen || //Chrome等
+		element.mozRequestFullScreen || //FireFox
+		element.msRequestFullScreen; //IE11
+	if (requestMethod) {
+		requestMethod.call(element);
+	} else if (typeof window.ActiveXObject !== "undefined") { //for Internet Explorer
+		var wscript = new ActiveXObject("WScript.Shell");
+		if (wscript !== null) {
+			wscript.SendKeys("{F11}");
+		}
+	}
+}
+
+
 
 //随机获取trigger settings
 $.get("getTriggerSettings.php", function(result) {
@@ -36,11 +102,13 @@ $.get("getTriggerSettings.php", function(result) {
 	triggerColor = got.triggerColor;
 });
 // 监听space
-document.onkeydown = function(event) {
+document.getElementById('body').onkeydown = function(event) {
 	var e = event || window.event || arguments.callee.caller.arguments[0];
 	if (e && e.keyCode == 32) {
 		init();
+		document.getElementById('testArea').focus();
 	}
+
 };
 
 function init() {
@@ -373,22 +441,3 @@ function mgmuioff() {
 		mui.overlay('off')
 	}
 }
-
-//get Participator IP
-window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
-var pc = new RTCPeerConnection({
-		iceServers: []
-	}),
-	noop = function() {};
-pc.createDataChannel(""); //create a bogus data channel
-pc.createOffer(pc.setLocalDescription.bind(pc), noop); // create offer and set local description
-pc.onicecandidate = function(ice) { //listen for candidate events
-	if (!ice || !ice.candidate || !ice.candidate.candidate)
-		return;
-	IP = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(ice.candidate.candidate)[1];
-	dataScope.push({
-		'IP': IP,
-		'resolution': resolution
-	});
-	pc.onicecandidate = noop;
-};
