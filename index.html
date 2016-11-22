@@ -26,10 +26,7 @@
                             <li>实验过程中请距离屏幕1.5米，并尽量保持姿势不变</li>
                             <li>当屏幕中间的蓝色矩形区域变为红色时立马按下键盘上的空格键</li>
                         </ul>
-                            <video border="1px solid" src="/library/app/guide.mp4" height="370" autoplay="" loop="" style="
-                                border: 1px solid;
-                                border-radius: 8px;
-                            "></video>
+
 
                         <ul>
                             <li>点击确定按钮，即可开始下一个次实验</li>
@@ -113,7 +110,7 @@
     <div id="first" style="display:none">
         <h2>实验结束，但还有一些问题特别想问你</h2>
         <p id="is">你有注意到屏幕上的圆点吗?</p>
-        <button class="mui-btn mui-btn--raised mui-btn--accent" onclick="no()">压根没有</button>
+        <button class="mui-btn mui-btn--raised mui-btn--accent" onclick="no()">没有看到</button>
         <button class="mui-btn mui-btn--primary" onclick="yes()">注意到了</button>
 
     </div>
@@ -158,7 +155,6 @@
     <script src="library/sweetalert/sweetalert.js"></script>
     <script src="library/app/main.js"></script>
     <script>
-
         var beforeTestTime = 15;
         var nextStep = document.getElementById('nextstep');
         var itID = setInterval(function() {
@@ -177,6 +173,7 @@
         function guideReaded() {
             document.getElementById('guidePage').style.display = 'none';
             document.getElementById('scopeInfo').removeAttribute('style');
+            requestFullScreen(document.documentElement);
         }
 
         function beforeTest() {
@@ -203,6 +200,22 @@
             dataScope[0].sex = $("input[name='sex']:checked").val();
             dataScope[0].discipline = $("input[name='discipline']").val();
             dataScope[0].vision = $("select[name='vision']").val();
+        }
+
+        function requestFullScreen(element) {
+            // 判断各种浏览器，找到正确的方法
+            var requestMethod = element.requestFullScreen || //W3C
+                element.webkitRequestFullScreen || //Chrome等
+                element.mozRequestFullScreen || //FireFox
+                element.msRequestFullScreen; //IE11
+            if (requestMethod) {
+                requestMethod.call(element);
+            } else if (typeof window.ActiveXObject !== "undefined") { //for Internet Explorer
+                var wscript = new ActiveXObject("WScript.Shell");
+                if (wscript !== null) {
+                    wscript.SendKeys("{F11}");
+                }
+            }
         }
     </script>
 </body>

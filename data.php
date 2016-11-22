@@ -1,5 +1,4 @@
 <?php
-
 $data = json_decode($_POST['data']);
 $ahead=json_decode($_POST['aheadError']);
 
