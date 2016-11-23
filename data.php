@@ -16,7 +16,7 @@ $user =
 ];
 
 try {
-    $db = new PDO('mysql:host=127.0.0.1;dbname=thesis', 'root', '010011');
+    $db = new PDO('mysql:host=127.0.0.1;dbname=thesis', 'thesis', '010011');
     $query = 'INSERT INTO user(IP,age,sex,discipline,vision,resolution,isNoticed,noticeNumber,report) VALUES(:IP,:age,:sex,:discipline,:vision,:resolution,:isNoticed,:noticeNumber,:report)';
     $stmt = $db->prepare($query);
     $stmt->execute($user);

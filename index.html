@@ -36,7 +36,7 @@
                             <li>五次实验结束后，我们将会向你询问几个简单的问题</li>
                             <li>请放松，问题的选择没有对错之分</li>
                             <li>请根据自己的感觉来选择答案</li>
-                            <li>程序会自动复位。为了方便后来做实验的同学，请不要关闭程序。</li>
+
                         </ul>
                         <div style="text-align:center">
                             <button id="nextstep" class="mui-btn mui-btn--primary" onclick="guideReaded()" disabled>15</button>
@@ -81,13 +81,17 @@
                             <input name='discipline' type="text" class="mui--is-empty mui--is-dirty">
                             <label>我的专业</label>
                         </div>
-                        <div class="mui-select">
+                        <!-- <div class="mui-select">
                             <select name="vision">
                                 <option>正常</option>
                                 <option>近视</option>
                                 <option>远视</option>
                             </select>
                             <label>视力情况</label>
+                        </div> -->
+                        <div class="mui-textfield mui-textfield--float-label">
+                            <input name='vision' type="text" class="mui--is-empty mui--is-dirty">
+                            <label>屏幕尺寸（例如17英寸）</label>
                         </div>
                         <div style="text-align: right"><button onclick="beforeTest()" name='submit' class="mui-btn mui-btn--null mui-btn--primary">保存</button></div>
                     </div>

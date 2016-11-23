@@ -16,13 +16,12 @@
         var elem = document.getElementById("content");
         var h1 = document.getElementById("h1");
         // requestFullScreen(elem); // 某个页面元素
-        requestFullScreen(document.documentElement);// 整个网页
+        requestFullScreen(document.documentElement); //Fullsize all page
     };
 
     function requestFullScreen(element) {
-        // 判断各种浏览器，找到正确的方法
         var requestMethod = element.requestFullScreen || //W3C
-            element.webkitRequestFullScreen || //Chrome等
+            element.webkitRequestFullScreen || //Chrome
             element.mozRequestFullScreen || //FireFox
             element.msRequestFullScreen; //IE11
         if (requestMethod) {
@@ -35,11 +34,9 @@
         }
     }
 
-    //退出全屏 判断浏览器种类
     function exitFull() {
-        // 判断各种浏览器，找到正确的方法
         var exitMethod = document.exitFullscreen || //W3C
-            document.mozCancelFullScreen || //Chrome等
+            document.mozCancelFullScreen || //Chrome
             document.webkitExitFullscreen || //FireFox
             document.webkitExitFullscreen; //IE11
         if (exitMethod) {

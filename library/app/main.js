@@ -1,4 +1,4 @@
-var targetSever='http://192.168.1.17/';
+var targetSever='http://paddlers.cn';
 var gotParticipatorInfo = false;
 var testArea = document.getElementById('testArea');
 var trigger = document.getElementById('trigger');
@@ -28,7 +28,7 @@ var noticeNumber = 0;
 var resolution = screen.width.toString() + 'x' + screen.height.toString();
 
 var lock = true; //用来防止多次提交数据
-var beforeTestTime = 1;
+var beforeTestTime = 15;
 var nextStep = document.getElementById('nextstep');
 
 //beforeTes
@@ -74,7 +74,9 @@ function getParitcipatorInfo() {
 	dataScope[0].age = $("input[name='age']").val();
 	dataScope[0].sex = $("input[name='sex']:checked").val();
 	dataScope[0].discipline = $("input[name='discipline']").val();
-	dataScope[0].vision = $("select[name='vision']").val();
+	dataScope[0].vision = $("input[name='vision']").val();
+	dataScope[0].resolution = resolution;
+	dataScope[0].IP = IP;
 }
 
 function requestFullScreen(element) {
