@@ -28,7 +28,7 @@ var noticeNumber = 0;
 var resolution = screen.width.toString() + 'x' + screen.height.toString();
 
 var lock = true; //用来防止多次提交数据
-var beforeTestTime = 15;
+var beforeTestTime = 1;
 var nextStep = document.getElementById('nextstep');
 
 //beforeTes
@@ -52,22 +52,25 @@ function guideReaded() {
 }
 
 function beforeTest() {
-	document.getElementById('scopeInfo').style.display = 'none';
-	swal({
-			title: "Are you Ready?",
-			type: "warning",
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: "Go!",
-			closeOnConfirm: true,
-			html: true
-		},
-		function() {
-			getParitcipatorInfo();
-			gotParticipatorInfo = true;
-			document.getElementById('body').style.display = 'flex';
-			document.getElementById('testArea').style.display = 'flex';
-		}
-	);
+	if($("input[name='vision']").val()){
+		document.getElementById('scopeInfo').style.display = 'none';
+		swal({
+				title: "Are you Ready?",
+				type: "warning",
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Go!",
+				closeOnConfirm: true,
+				html: true
+			},
+			function() {
+				getParitcipatorInfo();
+				gotParticipatorInfo = true;
+				document.getElementById('body').style.display = 'flex';
+				document.getElementById('testArea').style.display = 'flex';
+			}
+		);
+	}
+	document.getElementById('nosize').style.display = 'block';
 }
 
 function getParitcipatorInfo() {
