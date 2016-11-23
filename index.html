@@ -81,14 +81,14 @@
                             <input name='discipline' type="text" class="mui--is-empty mui--is-dirty">
                             <label>我的专业</label>
                         </div>
-                        <div class="mui-select">
+                        <!-- <div class="mui-select">
                             <select name="vision">
                                 <option>正常</option>
                                 <option>近视</option>
                                 <option>远视</option>
                             </select>
                             <label>视力情况</label>
-                        </div>
+                        </div> -->
                         <div style="text-align: right"><button onclick="beforeTest()" name='submit' class="mui-btn mui-btn--null mui-btn--primary">保存</button></div>
                     </div>
 
@@ -199,7 +199,7 @@
             dataScope[0].age = $("input[name='age']").val();
             dataScope[0].sex = $("input[name='sex']:checked").val();
             dataScope[0].discipline = $("input[name='discipline']").val();
-            dataScope[0].vision = $("select[name='vision']").val();
+            // dataScope[0].vision = $("select[name='vision']").val();
         }
 
         function requestFullScreen(element) {
